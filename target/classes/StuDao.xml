@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzy.attendence.dao.StuDao">
+    
+    <select id="selectStuByStuId" parameterType="int" resultType="com.wzy.attendence.entity.Student">
+    	select stu_id,stu_card_id,stu_class,stu_name,stu_sex
+    	from tb_stu
+    	where stu_id = #{stuId}
+    </select>
+    
+	<select id="selectAllStu" resultType="com.wzy.attendence.entity.Student">
+    	select stu_id,stu_card_id,stu_class,stu_name,stu_sex
+    	from tb_stu
+    </select>
+</mapper>

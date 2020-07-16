@@ -1,0 +1,10 @@
+com\wzy\attendence\entity\Course.class
+com\wzy\attendence\socket\SocketThread.class
+com\wzy\attendence\dao\RecordDao.class
+com\wzy\attendence\service\impl\RecordServiceImpl.class
+com\wzy\attendence\entity\Student.class
+com\wzy\attendence\socket\SocketServiceLoader.class
+com\wzy\attendence\service\RecordService.class
+com\wzy\attendence\util\ThreadSpringServiceUtil.class
+com\wzy\attendence\entity\Record.class
+com\wzy\attendence\entity\Time.class

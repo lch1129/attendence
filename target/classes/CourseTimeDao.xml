@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzy.attendence.dao.CourseTimeDao">
+
+    <resultMap type="com.wzy.attendence.entity.CourseTime" id="courseTimemap">
+    	<id column="course_time_id" property="courseTimeId" />
+    	<result column="start_time" property="startTime" />
+    	<result column="end_time" property="endTime" />
+    	<association property="course" column="course_id" javaType="com.wzy.attendence.entity.Course">
+    		<id column="course_id" property="courseId"/>
+    		<result column="course_teacher" property="courseTeacher"/>
+    		<result column="course_name" property="courseName"/>
+    	</association>
+    </resultMap>
+    
+    <select id="selectCourseTimeByDate" parameterType="java.util.Date" resultMap="courseTimemap">
+    	select 
+    	t.course_time_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_course_time t
+    	left join
+    	tb_course c
+    	on
+    	t.course_id = c.course_id
+    	where #{date} between date_sub(t.start_time,interval 30 minute) and date_sub(t.end_time,interval 10 minute)
+    </select>
+    
+    <select id="selectCourseTimeByStartTime" parameterType="java.util.Date" resultMap="courseTimemap">
+    	select 
+    	t.course_time_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_course_time t
+    	left join
+    	tb_course c
+    	on
+    	t.course_id = c.course_id
+    	where #{startTime} = t.start_time
+    </select>
+    
+    <select id="selectCourseTimeByCourseId" parameterType="int" resultMap="courseTimemap">
+    	select 
+    	t.course_time_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_course_time t
+    	left join
+    	tb_course c
+    	on
+    	t.course_id = c.course_id
+    	where #{courseId}=t.course_id
+    </select>
+    
+    <select id="selectCourseTimeById" parameterType="int" resultMap="courseTimemap">
+    	select 
+    	t.course_time_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_course_time t
+    	left join
+    	tb_course c
+    	on
+    	t.course_id = c.course_id
+    	where #{courseTimeId}=t.course_time_id
+    </select>
+
+</mapper>

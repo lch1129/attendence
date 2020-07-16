@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>学科单节查询</title>
+<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../resources/js/a.js"></script>
+<script type="text/javascript" src="../resources/js/jquery.table2excel.js"></script>
+</head>
+<body>
+<div>
+<form>
+请选择课程：<select id="course_name" name="courseId" onchange="findCourseTime();">
+</select><br><br>
+请选择课时：<select id="course_time" name="courseTimeId"></select>
+<br><br>
+<input type="button" id="submit" value="查询">
+</form>
+</div>
+<hr>
+<div align="center">
+<table cellspacing="16">
+<tr>
+<td id="teacher_name"></td>
+<td id="class_name"></td>
+<td id="require_number"></td>
+<td id="actual_number"></td>
+<td id="attendance_point"></td>
+<td id="late_number"></td>
+<td id="late_point"></td>
+</tr>
+</table>
+</div>
+<div>
+<h4>迟到名单：<button id="late_btn" hidden="true">下载</button></h4>
+<table id="late" border="1" width="65%" cellspacing="0">
+<thead><tr><td>姓名</td><td>学号</td></tr></thead>
+<tbody></tbody>
+</table>
+<br>
+<h4>缺勤名单：<button id="attendance_btn" hidden="true">下载</button></h4>
+<table id="attendance" border="1" width="65%" cellspacing="0">
+<thead><tr><td>姓名</td><td>学号</td></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</body>
+</html>

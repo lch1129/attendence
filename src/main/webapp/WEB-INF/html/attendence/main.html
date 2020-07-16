@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>吴哥考勤</title>
+    <style type="text/css">
+        *{
+            font-size:10pt;
+        }
+        body{
+            text-align:center;
+        }
+        .table{
+            width:1024px;
+            height:100%;
+            border:1px solid gray;/*固定边框,1像素*/
+            border-collapse: collapse;/*单线的列表边框*/
+        }
+        .table td{
+            border:1px solid gray;/*固定边框,1像素*/
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<table class="table" align="center">
+    <tr style="background: #4682B4; height: 120px; ">
+        <td colspan="2" align="center">
+            <iframe frameborder="0" src="totop" name="top"></iframe>
+        </td>
+    </tr>
+    <tr>
+        <td width="120" height="565" style="padding:5px;" align="center" valign="top">
+            <iframe frameborder="0" width="120" src="toleft" name="left"></iframe>
+        </td>
+        <td>
+            <iframe frameborder="0" src="tobody" name="body" scrolling="yes"></iframe>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

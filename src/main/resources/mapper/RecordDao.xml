@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzy.attendence.dao.RecordDao">
+	<resultMap type="com.wzy.attendence.entity.Record" id="recordMap">
+		<id property="recordId" column="record_id"/>
+		<result property="recordTime" column="record_time"/>
+		<result property="late" column="late"/>
+		
+		<association property="courseTime" column="course_time_id" javaType="com.wzy.attendence.entity.CourseTime">
+		<id property="courseTimeId" column="course_time_id"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<association property="course" column="course_id" javaType="com.wzy.attendence.entity.Course">
+    		<id column="course_id" property="courseId"/>
+    		<result column="course_teacher" property="courseTeacher"/>
+    		<result column="course_name" property="courseName"/>
+    	</association>
+    	</association>
+		
+		<association property="stu" column="card_id" javaType="com.wzy.attendence.entity.Student">
+		<id column="card_id" property="stuId"/>
+		<result column="stu_class" property="stuClass"/>
+		<result column="stu_name" property="stuName"/>
+		<result column="stu_sex" property="stuSex"/>
+		<result column="stu_card_id" property="stuCardId"/>
+		</association>
+	</resultMap>
+
+    <insert id="insertRecord" parameterType="com.wzy.attendence.entity.Record">
+        insert into 
+        tb_record(record_id,record_time,course_time_id,late,card_id)
+        values(#{recordId}, #{recordTime}, #{courseTime.courseTimeId}, #{late}, #{stu.stuId}) 
+    </insert>
+	
+	<select id="selectOneRecord" resultMap="recordMap">
+		select 
+    	r.record_id,
+    	r.record_time,
+    	r.course_time_id,
+    	r.late,
+    	r.card_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	s.stu_card_id,
+    	s.stu_class,
+    	s.stu_name,
+    	s.stu_sex,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_record r,
+    	tb_course_time t,
+    	tb_stu s,
+    	tb_course c
+    	where r.course_time_id = t.course_time_id
+    	and r.card_id = s.stu_id
+    	and t.course_id = c.course_id
+    	and r.course_time_id = #{courseTime.courseTimeId}
+    	and r.card_id = #{stu.stuId}
+	</select>
+	
+	<select id="selectLateRecordByCourse" resultMap="recordMap"
+			parameterType="int">
+		select 
+    	r.record_id,
+    	r.record_time,
+    	r.course_time_id,
+    	r.late,
+    	r.card_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	s.stu_card_id,
+    	s.stu_class,
+    	s.stu_name,
+    	s.stu_sex,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_record r,
+    	tb_course_time t,
+    	tb_stu s,
+    	tb_course c
+    	where r.course_time_id = t.course_time_id
+    	and r.card_id = s.stu_id
+    	and t.course_id = c.course_id
+    	and t.course_id = #{courseId}
+    	and r.late = 1
+    	order by r.card_id
+	</select>
+	
+	<select id="selectLateRecordByCourseTime" resultMap="recordMap"
+			parameterType="com.wzy.attendence.entity.CourseTime">
+		select 
+    	r.record_id,
+    	r.record_time,
+    	r.course_time_id,
+    	r.late,
+    	r.card_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	s.stu_card_id,
+    	s.stu_class,
+    	s.stu_name,
+    	s.stu_sex,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_record r,
+    	tb_course_time t,
+    	tb_stu s,
+    	tb_course c
+    	where r.course_time_id = t.course_time_id
+    	and r.card_id = s.stu_id
+    	and t.course_id = c.course_id
+    	and t.course_time_id = #{courseTimeId}
+    	and r.late = 1
+    	order by r.card_id
+	</select>
+	
+	<select id="selectRecordByCourseTime" resultMap="recordMap"
+			parameterType="com.wzy.attendence.entity.CourseTime">
+		select 
+    	r.record_id,
+    	r.record_time,
+    	r.course_time_id,
+    	r.late,
+    	r.card_id,
+    	t.course_id,
+    	t.start_time,
+    	t.end_time,
+    	s.stu_card_id,
+    	s.stu_class,
+    	s.stu_name,
+    	s.stu_sex,
+    	c.course_teacher,
+    	c.course_name
+    	from 
+    	tb_record r,
+    	tb_course_time t,
+    	tb_stu s,
+    	tb_course c
+    	where r.course_time_id = t.course_time_id
+    	and r.card_id = s.stu_id
+    	and t.course_id = c.course_id
+    	and t.course_time_id = #{courseTimeId}
+    	order by r.card_id
+	</select>
+	
+	<select id="selectLateTimes" resultType="int">
+		select 
+    	count(*)
+    	from 
+    	tb_record r,
+    	tb_course_time t,
+    	tb_stu s,
+    	tb_course c
+    	where r.course_time_id = t.course_time_id
+    	and r.card_id = s.stu_id
+    	and t.course_id = c.course_id
+    	and c.course_id = #{courseId}
+    	and r.card_id = #{stu.stuId}
+    	and r.late = 1
+	</select>
+</mapper>
